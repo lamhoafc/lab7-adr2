@@ -49,6 +49,17 @@
         android:layout_height="wrap_content"
         android:hint="Enter type" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Image"
+        android:textSize="16sp"/>
+    <EditText
+        android:id="@+id/edtImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter link image" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

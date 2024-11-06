@@ -1,12 +1,22 @@
 package fpoly.account.lab_android2.lab1.dao;
 
+import static fpoly.account.lab_android2.lab1.helper.DbHelper.COLUMN_NAME_CONTENT;
+import static fpoly.account.lab_android2.lab1.helper.DbHelper.COLUMN_NAME_DATE;
+import static fpoly.account.lab_android2.lab1.helper.DbHelper.COLUMN_NAME_ID;
+import static fpoly.account.lab_android2.lab1.helper.DbHelper.COLUMN_NAME_IMAGE;
+import static fpoly.account.lab_android2.lab1.helper.DbHelper.COLUMN_NAME_STATUS;
+import static fpoly.account.lab_android2.lab1.helper.DbHelper.COLUMN_NAME_TITLE;
+import static fpoly.account.lab_android2.lab1.helper.DbHelper.COLUMN_NAME_TYPE;
+import static fpoly.account.lab_android2.lab1.helper.DbHelper.TABLE_TODO_NAME;
+
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import fpoly.account.lab_android2.lab1.helper.DbHelper;
-import fpoly.account.lab_android2.lab1.model.ToDo;
+import fpoly.account.lab_android2.lab1.model.TodoModel;
 
 public class ToDoDAO {
     private SQLiteDatabase db;
@@ -17,23 +27,25 @@ public class ToDoDAO {
         db = dbHelper.getWritableDatabase();
     }
 
-    public ArrayList<ToDo> getListToDo() {
-        ArrayList<ToDo> lists = new ArrayList<>();
+    @SuppressLint("Range")
+    public ArrayList<TodoModel> getListToDo() {
+        ArrayList<TodoModel> lists = new ArrayList<>();
         db = dbHelper.getReadableDatabase();
 
         Cursor cursor = null;
         try {
-            cursor = db.rawQuery("SELECT * FROM TODO", null);
+            cursor = db.rawQuery("SELECT * FROM " + TABLE_TODO_NAME, null);
             if (cursor.moveToFirst()) {
                 do {
-                    ToDo toDo = new ToDo();
-                    toDo.setId(cursor.getInt(0));
-                    toDo.setTitle(cursor.getString(1));
-                    toDo.setContent(cursor.getString(2));
-                    toDo.setDate(cursor.getString(3));
-                    toDo.setType(cursor.getString(4));
-                    toDo.setStatus(cursor.getInt(5));
-                    lists.add(toDo);
+                    TodoModel todoModel = new TodoModel();
+                    todoModel.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_ID)));
+                    todoModel.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TITLE)));
+                    todoModel.setContent(cursor.getString(cursor.getColumnIndex(COLUMN_NAME_CONTENT)));
+                    todoModel.setDate(cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DATE)));
+                    todoModel.setType(cursor.getString(cursor.getColumnIndex(COLUMN_NAME_TYPE)));
+                    todoModel.setStatus(cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_STATUS)));
+                    todoModel.setImage(cursor.getString(cursor.getColumnIndex(COLUMN_NAME_IMAGE)));
+                    lists.add(todoModel);
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
@@ -46,19 +58,23 @@ public class ToDoDAO {
         return lists;
     }
 
-    public boolean addToDo(ToDo toDo) {
+
+
+    public boolean addToDo(TodoModel todoModel) {
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
         sqLiteDatabase.beginTransaction();
 
         try {
             ContentValues contentValues = new ContentValues();
-            contentValues.put("TITLE", toDo.getTitle());
-            contentValues.put("CONTENT", toDo.getContent());
-            contentValues.put("DATE", toDo.getDate());
-            contentValues.put("TYPE", toDo.getType());
-            contentValues.put("STATUS", toDo.getStatus());
+            contentValues.put(COLUMN_NAME_TITLE, todoModel.getTitle());
+            contentValues.put(COLUMN_NAME_CONTENT, todoModel.getContent());
+            contentValues.put(COLUMN_NAME_DATE, todoModel.getDate());
+            contentValues.put(COLUMN_NAME_TYPE, todoModel.getType());
+            contentValues.put(COLUMN_NAME_STATUS, todoModel.getStatus());
+            contentValues.put(COLUMN_NAME_IMAGE, todoModel.getImage());
 
-            long check = sqLiteDatabase.insert("TODO", null, contentValues);
+
+            long check = sqLiteDatabase.insert(TABLE_TODO_NAME, null, contentValues);
             if (check != -1) {
                 sqLiteDatabase.setTransactionSuccessful();
             }
@@ -71,18 +87,19 @@ public class ToDoDAO {
         }
     }
 
-    public boolean updateToDo(ToDo toDo) {
+    public boolean updateToDo(TodoModel todoModel) {
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
         sqLiteDatabase.beginTransaction();
         try {
             ContentValues contentValues = new ContentValues();
-            contentValues.put("TITLE", toDo.getTitle());
-            contentValues.put("CONTENT", toDo.getContent());
-            contentValues.put("DATE", toDo.getDate());
-            contentValues.put("TYPE", toDo.getType());
-            contentValues.put("STATUS", toDo.getStatus());
+            contentValues.put(COLUMN_NAME_TITLE, todoModel.getTitle());
+            contentValues.put(COLUMN_NAME_CONTENT, todoModel.getContent());
+            contentValues.put(COLUMN_NAME_DATE, todoModel.getDate());
+            contentValues.put(COLUMN_NAME_TYPE, todoModel.getType());
+            contentValues.put(COLUMN_NAME_STATUS, todoModel.getStatus());
+            contentValues.put(COLUMN_NAME_IMAGE, todoModel.getImage());
 
-            int rows = sqLiteDatabase.update("TODO", contentValues, "ID = ?", new String[]{String.valueOf(toDo.getId())});
+            int rows = sqLiteDatabase.update(TABLE_TODO_NAME, contentValues, COLUMN_NAME_ID + " = ?", new String[]{String.valueOf(todoModel.getId())});
             if (rows > 0) {
                 sqLiteDatabase.setTransactionSuccessful();
             }
@@ -99,7 +116,7 @@ public class ToDoDAO {
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
         sqLiteDatabase.beginTransaction();
         try {
-            int rows = sqLiteDatabase.delete("TODO", "ID = ?", new String[]{String.valueOf(id)});
+            int rows = sqLiteDatabase.delete(TABLE_TODO_NAME, COLUMN_NAME_ID + " = ?", new String[]{String.valueOf(id)});
             if (rows > 0) {
                 sqLiteDatabase.setTransactionSuccessful();
             }

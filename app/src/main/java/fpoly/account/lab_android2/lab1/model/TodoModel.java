@@ -1,23 +1,33 @@
 package fpoly.account.lab_android2.lab1.model;
 
-public class ToDo {
+public class TodoModel {
     private int id;
     private String title;
     private String content;
     private String date;
     private String type;
     private int status;
+    private String image;
 
-    public ToDo(int id, String title, String content, String date, String type, int status) {
+    public TodoModel(int id, String title, String content, String date, String type, int status, String image) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;
         this.type = type;
         this.status = status;
+        this.image = image;
     }
 
-    public ToDo() {
+    public TodoModel() {
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getId() {
