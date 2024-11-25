@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "499119283446",
+    "project_id": "lab7-android2-9eea9",
+    "storage_bucket": "lab7-android2-9eea9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499119283446:android:07d48f4949827bee0820d7",
+        "android_client_info": {
+          "package_name": "fpoly.account.lab_android2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApC4JtR3K2X4F2-NCtCMjwXoXcjIgwC0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

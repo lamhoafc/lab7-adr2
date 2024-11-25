@@ -1,7 +1,7 @@
 package fpoly.account.lab_android2.lab1.model;
 
 public class TodoModel {
-    private int id;
+    private String id;
     private String title;
     private String content;
     private String date;
@@ -9,7 +9,7 @@ public class TodoModel {
     private int status;
     private String image;
 
-    public TodoModel(int id, String title, String content, String date, String type, int status, String image) {
+    public TodoModel(String id, String title, String content, String date, String type, int status, String image) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -30,11 +30,11 @@ public class TodoModel {
         this.image = image;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
